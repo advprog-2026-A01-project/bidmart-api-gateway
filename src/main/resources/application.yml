@@ -15,6 +15,9 @@ spring:
 services:
   auth:
     base-url: ${AUTH_SERVICE_BASE_URL:http://localhost:8081}
+    grpc:
+      host: ${AUTH_GRPC_HOST:localhost}
+      port: ${AUTH_GRPC_PORT:9091}
   catalog:
     base-url: ${CATALOG_SERVICE_BASE_URL:http://localhost:8082}
   auction-wallet:
