@@ -25,6 +25,7 @@ public class SecurityConfig {
     private static final String API_AUTH_VERIFY_EMAIL = "/api/auth/verify-email";
     private static final String API_AUTH_VERIFY_MFA = "/api/auth/2fa/verify";
     private static final String API_PUBLIC_PROFILE = "/api/users/*/public-profile";
+    private static final String API_GATEWAY_AUTH_GRPC_STATUS = "/api/gateway/internal/auth-grpc/status";
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(final ServerHttpSecurity http) {
@@ -35,9 +36,16 @@ public class SecurityConfig {
                 .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
                 .logout(ServerHttpSecurity.LogoutSpec::disable)
                 .authorizeExchange(exchange -> exchange
+                        .pathMatchers(
+                                HttpMethod.GET,
+                                "/actuator/health",
+                                API_AUTH_CAPTCHA,
+                                API_DB_PING,
+                                API_GATEWAY_AUTH_GRPC_STATUS
+                        ).permitAll()
                         .pathMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .pathMatchers(HttpMethod.GET, "/actuator/health", API_AUTH_CAPTCHA, API_DB_PING).permitAll()
-                        .pathMatchers(HttpMethod.POST,
+                        .pathMatchers(
+                                HttpMethod.POST,
                                 API_AUTH_REGISTER,
                                 API_AUTH_LOGIN,
                                 API_AUTH_REFRESH,
