@@ -7,6 +7,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
     id("com.google.protobuf") version "0.10.0"
     pmd
+    jacoco
 }
 
 group = "id.ac.ui.cs.advprog"
@@ -93,3 +94,22 @@ tasks.named<Pmd>("pmdTest") {
 tasks.register("stage") {
     dependsOn("bootJar")
 }
+
+jacoco {
+    toolVersion = "0.8.13"
+}
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(true)
+    }
+}
+
