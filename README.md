@@ -1,4 +1,5 @@
 # BidMart API Gateway
+### ***By Neal Guarddin - Advance Programming A - 2406348282***
 
 `bidmart-api-gateway` adalah single public backend entry point untuk arsitektur microservices BidMart.
 
